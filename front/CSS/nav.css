@@ -5,4 +5,8 @@
 	background-color: #FFF;
 	pointer-events: all;
 	opacity: 0.85;
+	-moz-box-shadow: 0 0 6px #CDCDCD;
+	-webkit-box-shadow: 0 0 6px #CDCDCD;
+	box-shadow: 0 0 6px #CDCDCD;
 }
+
