@@ -9,12 +9,22 @@
     <link rel="stylesheet" href="CSS/detail.css">
 </head>
 
-<body class="ng-cloak" ng-controller="MainCtrl">
-    <div id="map-canvas">
-        
+<body class="ng-cloak" id="site-wrapper" ng-controller="MainCtrl">
+
+    <div id="site-canvas">
+        <div id="side-menu">
+            
+        </div>
+
+        <div id="map-canvas" class="toggle-nav">
+            
+        </div>
+        <div class="fadeanim seg1main" app-view-segment="0"> 
+        </div>
+
     </div>
-    <div class="fadeanim seg1main" app-view-segment="0"> 
-    </div>
+
+    
 
     <script src="JS/lib/angular.js"></script>
     <script src="JS/lib/angular-route.js"></script>

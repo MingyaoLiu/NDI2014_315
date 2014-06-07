@@ -64,23 +64,59 @@ body {
 	opacity: 0;
 }
 
-#map-canvas {
-	position: fixed !important;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 6666;
+#site-wrapper {
+	position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 5000px;
 }
 
-.seg1main {
-	position: fixed;
+#site-canvas {
+	width: 100%;
+    height: 100%;
+    position: relative;
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    -webkit-transition: .3s ease all;
+    transition: .3s ease all;
+}
+#site-wrapper.show-nav #site-canvas {
+    -webkit-transform: translateX(20%);
+    transform: translateX(20%);
+}
+#side-menu {
+	background-image: url('/ASSET/bg-ios.png');
+	display: block;
+	width: 20%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: -20%;
+    padding: 15px;
+}
+
+#map-canvas {
 	margin: 0;
 	padding: 0;
 	width: 100%;
 	height: 100%;
-    opacity: 0.95;
-	z-index: 7777;
+	z-index: 1111;
+	left: 0;
+	position: relative;
+
+}
+
+
+.seg1main {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 2222;
+	pointer-events: none;
 }
 
 .seg2main {
