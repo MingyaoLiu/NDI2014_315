@@ -1,0 +1,11 @@
+{
+  "name": "NGI2014_315",
+  "version": "0.1.0",
+  "description": "Next Generation Innovator",
+  "main": "server.js",
+  "dependencies": {
+    "express": "*",
+    "mongojs": "*",
+    "body-parser": "*"
+  }
+}
