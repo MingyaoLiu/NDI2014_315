@@ -58,12 +58,14 @@
     <script src="JS/lib/angular-sanitize.js"></script>
     <script src="JS/lib/angular-route-segment.js"></script>
     <script src="JS/lib/jquery-2.1.0.js"></script>
-    <script src="JS/lib/jquery.scrollTo.js"></script>
-    <script src="JS/lib/jquery.browser.mobile.js"></script>
-    <script src="JS/lib/iscroll.js"></script>
-    <script src="JS/lib/iscroll-probe.js"></script>
+
+
+    <script src="//js.leapmotion.com/leap-0.6.0.js"></script>
+<script src="//js.leapmotion.com/leap-plugins-0.1.6.js"></script>
+
     <script src="JS/app.js"></script>
     <script src="JS/configuration/config.js"></script>
+
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=visualization,geometry,places&key=AIzaSyBT_SS9q3CSaWizCM55NlgjPPKxIpcjqP4">
     </script>
@@ -71,7 +73,7 @@
     <script src="ASSET/FMEServer.js"></script>
     <script type="text/javascript">
 
-        var centerloc = new google.maps.LatLng(43.5,-79.2);
+        var centerloc = new google.maps.LatLng(44,-78.8);
           var mapOptions = {
             center: centerloc,
             zoom: 8,
@@ -157,7 +159,7 @@
         }
         function getRBCbranch() {
             var request = {
-            location:  new google.maps.LatLng(43.5,-79.2),
+            location:  new google.maps.LatLng(44,-78.8),
             radius: '100000',
             name: ['rbc bank']
           };
@@ -178,7 +180,7 @@
                   title:"RBC",
                   icon: '/ASSET/rbcmapicon1.png',
                   draggable: false,
-                  animation: google.maps.Animation.DROP
+//                  animation: google.maps.Animation.DROP
 
                 });
                 rbcid = marker.__gm_id;
@@ -191,7 +193,7 @@
         }
         function getTDbranch() {
             var request2 = {
-                location:  new google.maps.LatLng(43.5,-79.2),
+                location:  new google.maps.LatLng(44,-78.8),
                 radius: '100000',
                 name: ['td bank']
             };
@@ -210,7 +212,7 @@
                   title:"TD",
                   icon: '/ASSET/tdmapicon1.png',
                   draggable: false,
-                  animation: google.maps.Animation.DROP
+ //                 animation: google.maps.Animation.DROP
                 });
                 tdid = marker.__gm_id;
                 tdsavedid[i] = tdid;
@@ -221,7 +223,7 @@
         }
         function getCIBCbranch() {
             var request3 = {
-            location:  new google.maps.LatLng(43.5,-79.2),
+            location:  new google.maps.LatLng(44,-78.8),
             radius: '100000',
             name: ['cibc bank']
           };
@@ -242,7 +244,7 @@
                   title:"CIBC",
                   icon: '/ASSET/cibcmapicon1.png',
                   draggable: false,
-                  animation: google.maps.Animation.DROP
+ //                 animation: google.maps.Animation.DROP
 
                 });
                 cibcid = marker.__gm_id;
@@ -304,6 +306,43 @@
               socket.emit("start tweets");
             });
           }
+
+var maplayer = {};
+var newZoom;
+
+Leap.loop(function(frame) {
+
+  frame.hands.forEach(function(hand, index) {
+       
+    maplayer.setTransform(hand.screenPosition(), hand.roll());
+    
+  });
+  
+}).use('screenPosition', {scale: 0.25});
+
+maplayer.setTransform = function(position, rotation) {
+
+
+    var center = map.getCenter();
+    var newLng = -81 + position[0] * 0.0025;
+    var newLat = 43.5 + (-1) * position[1] * 0.0036;
+    var newCenter = new google.maps.LatLng(newLat, newLng);
+    map.setCenter(newCenter);
+
+    //   $('#map_canvas').css('transform', 'rotate(' + -rotation + 'rad)');
+    //   $('#map_canvas').css('-webkit-transform', 'rotate(' + -rotation + 'rad)');
+    //   $('#map_canvas').css('-o-transform', 'rotate(' + -rotation + 'rad)');
+
+    // newerZoom = 8 + position[2] * 0.05;
+    // if (newZoom != newerZoom) {
+    //     newZoom = Math.ceil(newerZoom);
+    //     map.setZoom( newZoom );
+    // }
+    // else {
+    //     console.log('No change');
+    // }
+
+};
 
 
     </script>
