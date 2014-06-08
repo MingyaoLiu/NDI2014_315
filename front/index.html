@@ -19,29 +19,31 @@
                 </form>
             </div>
 
-            <div class="sidebutton">
-                <a href="#" class="square green">RBC Branch</a>
+            <div class="sidebutton" onclick="toggleRBC()">
+                <a href="#" id="RBCButton" class="square gray">RBC Branch</a>
+            </div>
+            <div class="sidebutton" onclick="toggleTD()">
+                <a href="#" id="TDButton" class="square gray">TD Branch</a>
+            </div>
+            <div class="sidebutton" onclick="toggleCIBC()">
+                <a href="#" id="CIBCButton" class="square gray">CIBC Branch</a>
             </div>
             <div class="sidebutton">
-                <a href="#" class="square green">TD Branch</a>
+                <a href="#" class="square gray" onclick="toggleTwitter()">Twitter</a>
             </div>
             <div class="sidebutton">
-                <a href="#" class="square green">CIBC Branch</a>
+                <a href="#" class="square gray">Facebook</a>
             </div>
             <div class="sidebutton">
-                <a href="#" class="square green">Twitter</a>
-            </div>
-            <div class="sidebutton">
-                <a href="#" class="square green">Facebook</a>
-            </div>
-            <div class="sidebutton">
-                <a href="#" class="square green">Foursquare</a>
+                <a href="#" class="square gray">Foursquare</a>
             </div>
         </div>
 
         <div id="map_canvas" class="toggle-nav">
             
         </div>
+
+        
         <div class="fadeanim seg1main" app-view-segment="0">
 
         </div>
@@ -63,10 +65,247 @@
     <script src="JS/app.js"></script>
     <script src="JS/configuration/config.js"></script>
     <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js??sensor=false&libraries=visualization&key=AIzaSyBT_SS9q3CSaWizCM55NlgjPPKxIpcjqP4">
+      src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=visualization,geometry,places&key=AIzaSyBT_SS9q3CSaWizCM55NlgjPPKxIpcjqP4">
     </script>
     <script src="../socket.io/socket.io.js"></script>
     <script src="ASSET/FMEServer.js"></script>
-   
+    <script type="text/javascript">
+
+        var centerloc = new google.maps.LatLng(43.5,-79.2);
+          var mapOptions = {
+            center: centerloc,
+            zoom: 8,
+            disableDefaultUI: true
+
+          };
+          var map = new google.maps.Map(document.getElementById("map_canvas"),
+            mapOptions);
+
+        var tdid;
+        var tdsavedid = new Array();
+        var tdbranchsaved = {};
+        var tdbranchdelete;
+        var cibcid;
+        var cibcsavedid = new Array();
+        var cibcbranchsaved = {};
+        var cibcbranchdelete;
+        var cibcbranchsaved;
+        var rbcid;
+        var rbcsavedid = new Array();
+        var rbcbranchsaved = {};
+        var rbcbranchdelete;
+        var rbcbranchsaved;
+
+
+
+        function toggleRBC() {
+            if ($('#RBCButton').hasClass('blue')) {
+                clearRBCbranch();
+                $('#RBCButton').removeClass('blue');
+                $('#RBCButton').addClass('gray');
+            }
+            else {
+                $('#RBCButton').removeClass('gray');
+                $('#RBCButton').addClass('blue');
+                getRBCbranch();
+            }
+        }
+        function toggleTD() {
+            if ($('#TDButton').hasClass('green')) {
+                clearTDbranch();
+                $('#TDButton').removeClass('green');
+                $('#TDButton').addClass('gray');
+            }
+            else {
+                $('#TDButton').removeClass('gray');
+                $('#TDButton').addClass('green');
+                getTDbranch();
+            }
+        }
+        function toggleCIBC() {
+            if ($('#CIBCButton').hasClass('red')) {
+                clearCIBCbranch();
+                $('#CIBCButton').removeClass('red');
+                $('#CIBCButton').addClass('gray');
+            }
+            else {
+                $('#CIBCButton').removeClass('gray');
+                $('#CIBCButton').addClass('red');
+                getCIBCbranch();
+            }
+        }
+        function clearRBCbranch() {
+            for (var i = 0; i < rbcsavedid.length; i++) {
+            var checkdelete = rbcsavedid[i];
+                marker = rbcbranchsaved[checkdelete]; 
+                marker.setMap(null);
+            }
+        }
+        function clearTDbranch() {
+            for (var i = 0; i < tdsavedid.length; i++) {
+            var checkdelete = tdsavedid[i];
+                marker = tdbranchsaved[checkdelete]; 
+                marker.setMap(null);
+            }
+        }
+        function clearCIBCbranch() {
+            for (var i = 0; i < cibcsavedid.length; i++) {
+            var checkdelete = cibcsavedid[i];
+                marker = cibcbranchsaved[checkdelete]; 
+                marker.setMap(null);
+            }
+        }
+        function getRBCbranch() {
+            var request = {
+            location:  new google.maps.LatLng(43.5,-79.2),
+            radius: '100000',
+            name: ['rbc bank']
+          };
+
+          var service = new google.maps.places.PlacesService(map);
+          service.search( request, callback2 );
+
+          function callback2(results, status) {
+            if (status == google.maps.places.PlacesServiceStatus.OK) 
+            {
+              for ( var i = 0; i < results.length; i++ ) 
+              {
+                var place = results[i];
+                var loc = place.geometry.location;
+                var marker = new google.maps.Marker({
+                  position: loc,
+                  map: map,
+                  title:"RBC",
+                  icon: '/ASSET/rbcmapicon1.png',
+                  draggable: false,
+                  animation: google.maps.Animation.DROP
+
+                });
+                rbcid = marker.__gm_id;
+                rbcsavedid[i] = rbcid;
+                rbcbranchsaved[rbcid] = marker;
+              }
+            }
+
+          }
+        }
+        function getTDbranch() {
+            var request2 = {
+                location:  new google.maps.LatLng(43.5,-79.2),
+                radius: '100000',
+                name: ['td bank']
+            };
+            var service = new google.maps.places.PlacesService(map);
+            service.search( request2, callback1 );
+
+            function callback1(results, status) {
+            if (status == google.maps.places.PlacesServiceStatus.OK) {
+                tdbranchsaved = results;
+            for ( var i = 0; i < results.length; i++ ) {
+                var place = results[i];
+                var loc = place.geometry.location;
+                var marker = new google.maps.Marker({
+                  position: loc,
+                  map: map,
+                  title:"TD",
+                  icon: '/ASSET/tdmapicon1.png',
+                  draggable: false,
+                  animation: google.maps.Animation.DROP
+                });
+                tdid = marker.__gm_id;
+                tdsavedid[i] = tdid;
+                tdbranchsaved[tdid] = marker;
+              }
+            }
+          }
+        }
+        function getCIBCbranch() {
+            var request3 = {
+            location:  new google.maps.LatLng(43.5,-79.2),
+            radius: '100000',
+            name: ['cibc bank']
+          };
+
+          var service = new google.maps.places.PlacesService(map);
+          service.search( request3, callback3 );
+
+          function callback3(results, status) {
+            if (status == google.maps.places.PlacesServiceStatus.OK) 
+            {
+              for ( var i = 0; i < results.length; i++ ) 
+              {
+                var place = results[i];
+                var loc = place.geometry.location;
+                var marker = new google.maps.Marker({
+                  position: loc,
+                  map: map,
+                  title:"CIBC",
+                  icon: '/ASSET/cibcmapicon1.png',
+                  draggable: false,
+                  animation: google.maps.Animation.DROP
+
+                });
+                cibcid = marker.__gm_id;
+                cibcsavedid[i] = cibcid;
+                cibcbranchsaved[cibcid] = marker;
+              }
+            }
+          }
+        }
+          
+
+
+
+
+          
+
+          
+            //Setup heat map and link to Twitter array we will append data to
+            var heatmap;
+
+            var liveTweets = new google.maps.MVCArray();
+            heatmap = new google.maps.visualization.HeatmapLayer({
+              data: liveTweets,
+              radius: 25
+            });
+            heatmap.setMap(map);
+
+            if(io !== undefined) {
+            // Storage for WebSocket connections
+            var socket = io.connect('/');
+
+            // This listens on the "twitter-steam" channel and data is 
+            // received everytime a new tweet is receieved.
+            socket.on('twitter-stream', function (data) {
+
+              //Add tweet to the heat map array.
+              var tweetLocation = new google.maps.LatLng(data.lng,data.lat);
+              liveTweets.push(tweetLocation);
+
+              //Flash a dot onto the map quickly
+              var image = "/ASSET/small-dot-icon.png";
+              var marker = new google.maps.Marker({
+                position: tweetLocation,
+                map: map,
+                icon: image
+              });
+              setTimeout(function(){
+                marker.setMap(null);
+              },600);
+
+            });
+
+            // Listens for a success response from the server to 
+            // say the connection was successful.
+            socket.on("connected", function(r) {
+
+              //Now that we are connected to the server let's tell 
+              //the server we are ready to start receiving tweets.
+              socket.emit("start tweets");
+            });
+          }
+
+
+    </script>
 </body>
 </html>
