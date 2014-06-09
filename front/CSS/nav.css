@@ -8,5 +8,16 @@
 	-moz-box-shadow: 0 0 6px #CDCDCD;
 	-webkit-box-shadow: 0 0 6px #CDCDCD;
 	box-shadow: 0 0 6px #CDCDCD;
+	text-align: center;
+}
+#nav-banner span {
+	padding-top: 14px;
+	font-size: 18px;
+	display: block;
 }
 
+#nav-banner span  a{
+	text-decoration: none;
+	color: blue;
+	font-family: Museo-500;
+}
